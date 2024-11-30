@@ -1,0 +1,10 @@
+.idea/
+.venv/
+build/
+__pycache__/
+*.so
+*.c
+sessioncookie.txt
+input/*.txt
+.DS_store
+*.png
