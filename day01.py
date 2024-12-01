@@ -11,9 +11,8 @@ l1.sort()
 l2.sort()
 
 # 1-1
-total = sum(abs(id2 - id1) for id1, id2 in zip(l1, l2))
-print(total)
+print(sum(abs(id2 - id1) for id1, id2 in zip(l1, l2)))
 
 # 1-2
 counts = Counter(l2)
-print(sum(v1 * counts.get(v1, 0) for v1 in l1))
+print(sum(v1 * counts[v1] for v1 in l1))
