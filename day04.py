@@ -47,6 +47,5 @@ total = 0
 for r in range(1, len(puzzle)-1):
     for c in range(1, len(puzzle[0])-1):
         candidate = f'{puzzle[r-1][c-1]}.{puzzle[r-1][c+1]}\n.{puzzle[r][c]}.\n{puzzle[r+1][c-1]}.{puzzle[r+1][c+1]}'
-        candidate = re.sub(r'[^MAS\n]', '.', candidate)
         total += candidate in crosses
 print(total)
