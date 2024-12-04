@@ -17,7 +17,7 @@ MXMXAXMASX""".splitlines()
 puzzle = get_input(day=4)
 
 # 4-1
-def search(puzzle, word, r, c, found, direction):
+def search(puzzle, word, r, c, found, dr, dc):
     if not (0 <= r < len(puzzle) and 0 <= c < len(puzzle[0])):
         return False
     
@@ -27,10 +27,7 @@ def search(puzzle, word, r, c, found, direction):
         if found + target == word:
             return True
         else:
-            r_n = r + direction[0]
-            c_n = c + direction[1]
-            return search(puzzle, word, r_n, c_n, found+target, direction)
-
+            return search(puzzle, word, r+dr, c+dc, found+target, dr, dc)
     else:
         return False
 
@@ -41,7 +38,7 @@ for r in range(len(puzzle)):
         for dr in (-1, 0, 1):
             for dc in (-1, 0, 1):
                 if (dr, dc) != (0, 0):
-                    total += search(puzzle, "XMAS", r, c, '', (dr, dc))
+                    total += search(puzzle, "XMAS", r, c, '', dr, dc)
 print(total)
 
 # 4-2
@@ -51,6 +48,5 @@ for r in range(1, len(puzzle)-1):
     for c in range(1, len(puzzle[0])-1):
         candidate = f'{puzzle[r-1][c-1]}.{puzzle[r-1][c+1]}\n.{puzzle[r][c]}.\n{puzzle[r+1][c-1]}.{puzzle[r+1][c+1]}'
         candidate = re.sub(r'[^MAS\n]', '.', candidate)
-        if candidate in crosses:
-            total += 1
+        total += candidate in crosses
 print(total)
