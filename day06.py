@@ -21,7 +21,7 @@ def play(map, pos, direction):
 
     pos += direction
     while 0 <= pos.imag < R and 0 <= pos.real < C:
-        if (pos, direction) in state:
+        if (pos, direction) in history:
             return 'loop'
         
         history.add((pos, direction))
@@ -33,7 +33,8 @@ def play(map, pos, direction):
     return {pos for pos, _ in history}
 
 # 6-1
-print(len(play(map, start_pos, start_direction)))
+visited = play(map, start_pos, start_direction)
+print(len(visited))
 
 # 6-2
 loops = 0
@@ -47,4 +48,16 @@ for r in tqdm(range(R)):
             result = play(new_map, start_pos, start_direction)
             if result == 'loop':
                 loops += 1
+print(loops)
+
+# 6-2 faster
+# only try obstacles along the original path
+loops = 0
+for pos in tqdm(visited - {start_pos}):
+    new_map = map.copy()
+    new_map.add(pos)
+    
+    result = play(new_map, start_pos, start_direction)
+    if result == 'loop':
+        loops += 1
 print(loops)
