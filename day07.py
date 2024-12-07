@@ -8,18 +8,14 @@ puzzle = get_input(day=7)
 def concat(a, b):
     return int(str(a)+str(b))
 
-def dfs(numbers, intermediate, ans, do_concat):
+def dfs(numbers, operators, intermediate, ans):
     if not numbers:  # reached the bottom of the DFS
         return intermediate
     if intermediate > ans:  # all operators make things larger, so no use in continuing to search
         return float('inf')
     
-    operators = [mul, add]
-    if do_concat:
-        operators.append(concat)
-    
     for op in operators:
-        result = dfs(numbers[1:], op(intermediate, numbers[0]), ans, do_concat)
+        result = dfs(numbers[1:], operators, op(intermediate, numbers[0]), ans)
         if result == ans:
             return result
     return float('inf')
@@ -31,11 +27,11 @@ for line in puzzle:
     ans = int(ans)
     operands = [int(p) for p in operands.strip().split()]
 
-    result = dfs(operands[1:], operands[0], ans, do_concat=False)
+    result = dfs(operands[1:], (mul, add), operands[0], ans)
     if result == ans:
         total1 += result
 
-    result = dfs(operands[1:], operands[0], ans, do_concat=True)
+    result = dfs(operands[1:], (mul, add, concat), operands[0], ans)
     if result == ans:
         total2 += result
 print(total1)
